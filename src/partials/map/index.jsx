@@ -1,72 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ToastAndroid } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Polyline } from 'react-native-maps';
+import * as Location from 'expo-location';
+import axios from 'axios';
 import { BASE_URL } from '../../api/BASE_URL';
-import * as Location from 'expo-location'
+import { haversineDistance, min } from '../../api/geolocation';
+import { Loading } from '../containerLoaders';
 
-const MapScreen = () => {
+const MapScreen = ({ setName, setCalculing, setDistance, setLoading, setStores, setUser, setRoute }) => {
 
-  const [stores, setStores] = React.useState([])
-  const [user, setUser] = React.useState(null)
-  async function handleLocation(){
-    const { coords } = await Location.getCurrentPositionAsync()
-    setUser(coords)
-  }
-React.useEffect(() =>{
-  handleLocation()
-  fetch(BASE_URL + '/deliver/selects/get-stores-positions', 
-  {
-    method: 'GET',
-    headers : {
-      'Content-Type': 'application/json',
-    }
-  }).then((res) => res.json())
-  .then((response) => {
-    setStores(response.data)
-  })
-  .catch((error) => {
-    ToastAndroid.show(error.message, ToastAndroid.SHORT)
-  })
-}, [])
-if(user && user.latitude)
-{
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        showsUserLocation
-        initialRegion={
-          {
-            latitude : user.latitude,
-            longitude : user.longitude,
+  if (setUser) {
+    return (
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          showsUserLocation
+          initialRegion={{
+            latitude: setUser.latitude,
+            longitude: setUser.longitude,
             latitudeDelta: 0.01,
-            longitudeDelta: 0.01
-          }
-        }
-        
-      >
-        {/* Renderiza os marcadores no mapa */}
-        {stores.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={{ latitude: marker.ADMIN_LOCATION.LAT, longitude: marker.ADMIN_LOCATION.LON }}
-              title={marker.ADMIN_LOCATION.NAME}
+            longitudeDelta: 0.01,
+          }}
+        >
+          { setRoute && (
+            <Polyline
+              coordinates={setRoute.map(([longitude, latitude]) => ({ latitude, longitude }))}  
+              strokeWidth={4}
+              strokeColor="red"   
+            />
+          )}
+          {typeof setStores != 'undefined' && setStores.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={{ latitude: marker.ADMIN_LOCATION.LAT, longitude: marker.ADMIN_LOCATION.LON }}
+              title={marker.name}  
               icon={require('../../../assets/storeMarker.png')}
-          />
-        ))}
-      </MapView>
-    </View>
-  );
+            />
+          ))}
+        </MapView>
+      </View>
+    );
+  }
+  else
+    return null; 
 
-} 
-return null
 };
 
 const styles = StyleSheet.create({
-
   container: {
-    width : '100%',
-    height : '100%',
+    width: '100%',
+    height: 700,
     flex: 1,
   },
   map: {

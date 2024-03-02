@@ -50,8 +50,9 @@ const styles = StyleSheet.create({
         alignItems : 'center',
     },
     titleScreen : {
-        fontSize : 20,
-        color : 'tomato'
+        fontSize : 18,
+        color : 'tomato',
+        fontWeight : 'bold',
     }
 })
 

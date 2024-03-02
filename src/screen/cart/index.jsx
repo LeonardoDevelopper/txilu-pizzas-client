@@ -15,7 +15,7 @@ const Cart = () => {
     React.useEffect(() =>{
         async function getCart() {
             
-            const USER = await getUserData();
+            const USER = await getUserData('CLIENT-TOKEN');
         
             fetch(BASE_URL + `/client/selects/get-cart/${USER.ID}`,
             {
@@ -29,7 +29,7 @@ const Cart = () => {
                 setloading(false)
                 setCart(response.data.counter)
                 setList(response.data.products)
-                alert(list.data.products[0].ID)
+                // alert(list.data.products[0].ID)
     
             }).catch((error) => console.log(error.message)) 
         }

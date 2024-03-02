@@ -11,54 +11,43 @@ import { BASE_URL } from '../../api/BASE_URL';
 import { getUserData } from '../../api/asyncStorage';
 
 const Home = () => {
-  const [userLogged, setUserLogged] = React.useState(null)
   const [loading, setLoading] = useState(false);
   const [pizzas, setPizzas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [cart, setCart] = React.useState(0)
 
   const fetchData = useCallback(() => {
         setLoading(true);
 
-        (async () => {
-      
-          const USER = await getUserData()
-          setUserLogged(USER)
-          async function fetchData(url) {
-            return fetch(url)
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Erro na requisição');
-                }
-                return response.json();
-              });
-          }
-          
-          // Fazendo duas requisições simultâneas
-          Promise.all([fetchData(BASE_URL + '/client/selects/get-pizzas'), fetchData(BASE_URL + `/client/selects/count-cart/${USER.ID}`)])
-            .then(([data1, data2]) => {
-              // Aqui você tem acesso aos dados retornados de ambas as requisições
-    
-              setLoading(false);
-              setPizzas(data1.data);
-              setCart(data2.data)
-              console.log('Dados da requisição 1:', data1);
-              console.log('Dados da requisição 2:', data2);
-            })
-            .catch(error => {
-              // Tratar erros, se houver algum
-              setPizzas(null)
-              setLoading(false)
-               ToastAndroid('Erro ao buscar dados:'+ error.message, ToastAndroid.SHORT);
-            });
-        })();
+        async function fetchData(url) {
+          return fetch(url)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Erro na requisição');
+              }
+              return response.json();
+            }).catch(error => {throw new Error(error)})
+        }
+        
+        // Fazendo duas requisições simultâneas
+        Promise.all([fetchData(BASE_URL + '/client/selects/get-pizzas')])
+          .then(([data1]) => {
+            // Aqui você tem acesso aos dados retornados de ambas as requisições
+            setLoading(false);
+            setPizzas(data1.data);
+          })
+          .catch(error => {
+            // Tratar erros, se houver algum
+            setPizzas(null)
+            setLoading(false)
+             ToastAndroid('Erro ao buscar dados:'+ error.message, ToastAndroid.SHORT);
+          });
       
   }, [])
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchData();
-    setRefreshing(false);
+    setRefreshing(false); 
   }, [fetchData]);
 
   useEffect(() => {
@@ -71,7 +60,7 @@ const Home = () => {
       </View>
       <ScrollView
         style={styles.containerHome}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl key={'7444'} refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <View style={styles.header}>
             <Text style={styles.wellcome}>
@@ -81,15 +70,15 @@ const Home = () => {
         </View>
         <Ads />
 
-        {loading ? (
-          <Loading />
-        ) : (
+        {loading ? <Loading key={'983'} /> : 
+        (
           <View style={styles.containerPizza}>
-            {pizzas && pizzas.length > 0 ? pizzas.map((item) => <PrintRowPizza key={item.id} data={item} />) : <NoPizza text={'Something is wrong'} />}
+            {pizzas && pizzas.length > 0 ? pizzas.map((item) => <PrintRowPizza key={item.id} data={item} />) : <NoPizza key={'7833'} text={'Something is wrong'} />}
+
           </View>
         )}
       </ScrollView>
-      <Footer cart={cart} selection={[true, false, false, false, false]} />
+      <Footer selection={[true, false, false, false, false]} />
     </View>
   );
 };
@@ -110,6 +99,7 @@ const styles = StyleSheet.create({
   wellcome: {
     color: 'tomato',
     fontSize : 30,
+    fontWeight : 'bold',
   },
   h :{
     height : 30,
@@ -121,6 +111,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 80,
+    fontWeight : 'bold',
   },
 });
 

@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'
 import React from 'react';
 import { Text, TouchableHighlight, StyleSheet, View } from 'react-native';
-import Button from '../../partials/form/button';
+import {Button} from '../../partials/form/button';
 import HeaderScreen from '../../partials/headerScreen';
 import { useNavigation } from '@react-navigation/native';
 

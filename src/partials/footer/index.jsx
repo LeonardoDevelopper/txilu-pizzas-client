@@ -4,7 +4,7 @@ import { ButtonIconCircle } from '../form/button'
 import { useNavigation } from '@react-navigation/native'
 
 
-export const Footer = ({selection, cart}) => {
+export const Footer = ({selection}) => {
    const REDIRECT_TO = useNavigation()
     return (
         <View style={styles.footer}>
@@ -18,7 +18,7 @@ export const Footer = ({selection, cart}) => {
                 <ButtonIconCircle id={'search'} onclieck={() => REDIRECT_TO.navigate('Search')} selected={selection[2]}  path={selection[2] ? require('../../../assets/searchw.png') : require('../../../assets/searchs.png')} />
                 <View>
                     <ButtonIconCircle id={'cart'} onclieck={() => REDIRECT_TO.navigate('Cart')} selected={selection[3]}  path={selection[3] ? require('../../../assets/cartw.png') : require('../../../assets/carts.png')} />
-                    <Text style={styles.count}>{cart}</Text>
+                    <Text style={styles.count}>{0}</Text>
                 </View>
                 <ButtonIconCircle id={'account'}onclieck={() => REDIRECT_TO.navigate('Account')} selected={selection[4]} path={selection[4] ? require('../../../assets/accountw.png') : require('../../../assets/accounts.png')} />
             </View>

@@ -3,22 +3,28 @@ import { ButtonAddCart } from '../form/button'
 import React from 'react'
 import { BASE_URL } from '../../api/BASE_URL'
 import { getUserData } from '../../api/asyncStorage'
+import { useNavigation } from '@react-navigation/native'
 
 
 const Pizza = ({pizza, onPress}) => {
     const [id, setId] = React.useState(pizza.ID)
     const [user, setUser] = React.useState(null)
-    
+    const REDIRECT_TO = useNavigation()
     React.useEffect(() => {
         (async() => {
-            const USER = await getUserData()
+            const USER = await getUserData('CLIENT-TOKEN')
             console.log(USER)
             setUser(USER)
+            if(typeof USER == 'undefined')
+            {   
+                REDIRECT_TO.navigate('Signup')
+
+            }
         })()
     }, [])
     
     function add() {
-        fetch(BASE_URL + `/client/inserts/add-to-cart/${user.ID}/${pizza.ID}`, 
+        fetch(BASE_URL + `/client/inserts/add-to-cart/${user.ID}/${id}`, 
         {
             method : 'GET',
             headers : {
@@ -38,7 +44,7 @@ const Pizza = ({pizza, onPress}) => {
     function handleSubmit() {
         if(onPress)
         {
-            onPress(pizza.ID)
+            onPress(id)
         }
     }
     return (
@@ -80,7 +86,8 @@ const styles = StyleSheet.create({
         alignItems : 'center',
     },
     txtTomato : {
-        color : 'tomato'
+        color : 'tomato',
+        fontWeight : 'bold',
     }
 })
 

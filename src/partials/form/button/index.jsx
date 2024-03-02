@@ -59,9 +59,33 @@ export const  ButtonNavigation2 = ({id, text, path ,navigate, where}) => {
                 <View style={{width : 50, justifyContent : 'left',}}>
                     <Image style={{width : 20, height : 20}} source={path} />
                 </View>
-                <Text style={{color: 'dimgray', fontSize : 16, width : 200}}>{text}</Text>
+                <Text style={{color: 'dimgray', fontSize : 16, width : 200, fontWeight : 'bold'}}>{text}</Text>
                 <View style={{ width : 50}}>
-                    <Image style={{width : 30, height : 30}} source={require('../../../../assets/next.png')} />
+                    <Image style={{width : 20, height : 20}} source={require('../../../../assets/next.png')} />
+                </View>
+            </View>
+
+        </TouchableHighlight>
+    )
+}
+
+export const  ButtonLogout = ({id, text, path , fun}) => {
+    return (
+        <TouchableHighlight
+        accessibilityLabel= {id}
+            underlayColor={'#f5f5f5f5'}        
+            style={styles.btnNav2}
+            onPress={() => {
+                fun()
+            }}
+        >
+            <View style={styles.contentBtn}>
+                <View style={{width : 50, justifyContent : 'left',}}>
+                    <Image style={{width : 20, height : 20}} source={path} />
+                </View>
+                <Text style={{color: 'dimgray', fontSize : 16, width : 200, fontWeight : 'bold'}}>{text}</Text>
+                <View style={{ width : 50}}>
+                    <Image style={{width : 20, height : 20}} source={require('../../../../assets/next.png')} />
                 </View>
             </View>
 
@@ -91,6 +115,17 @@ export const ButtonCount = ({count, text, fun}) => {
         <Text style={{color : 'tomato', fontSize : 18 }}>
             {text}
         </Text>
+    </TouchableHighlight>
+}
+
+export const ButtonDelete = ({id, fun}) => {
+    return <TouchableHighlight
+        activeOpacity={0.5}
+        underlayColor="transparent"
+        style = {{}}
+        onPress={() => fun(id)}
+        >
+        <Image style={{width : 25, height : 25}} source={require('../../../../assets/deleter.png')} />
     </TouchableHighlight>
 }
 
@@ -146,10 +181,13 @@ const styles = StyleSheet.create({
         alignItems : 'center'
     },
     btnNav2 : {
+        justifyContent : 'center',
+        alignItems : 'center',
+        height : 70,
         padding : 15,
-        width : '100',
+        width : '95%',
         borderRadius : 10,
-        backgroundColor : '#f5f5f5'
+        backgroundColor : 'white'
     },
     button : {
         width : 300,

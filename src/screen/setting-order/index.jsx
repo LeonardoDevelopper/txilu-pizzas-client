@@ -7,17 +7,25 @@ import { Button, ButtonNavigation } from "../../partials/form/button";
 import { useNavigation } from "@react-navigation/native";
 import Destination from "../../partials/destination";
 import ContainerPreViewLocation from "../../partials/container-pre-view-location";
+import { getUserData } from "../../api/asyncStorage";
 
 const SettingOrder = () => {
     const REDIRECT_TO = useNavigation()
     const [userLocation, setUserLocation] = React.useState(null)
     const [destination, setDestination] = React.useState(null)
+    const [list, setList] = React.useState([])
     const getUserLocation = async () => {
         const user_location = await Location.getCurrentPositionAsync()
         setUserLocation(user_location)
     }
+    const loadData = async() => {
+        const DEST = await getUserData('DESTINATION-LIST')
+        setList(DEST)
+        console.log(list)
+    }
     React.useEffect(() => {
         getUserLocation()
+        loadData()
     }, [])
     function handleNext() {
         REDIRECT_TO.navigate('Payment Method')
@@ -27,7 +35,8 @@ const SettingOrder = () => {
             width: "100%",
             height: "100%",
             flex: 1,
-            gap : 20
+            gap : 20,
+            backgroundColor : 'white'
         }} >
             <HeaderScreen target1={'Home'} title={'Adicionar local de entrega'}  />
             <View style={styles.containerViewMap}>
@@ -41,7 +50,7 @@ const SettingOrder = () => {
                         <Text style={{color : 'dimgray',}}>
                             Marcar no mapa
                         </Text>
-                        <ButtonNavigation  path={require('../../../assets/map.png')} />
+                        <ButtonNavigation navigate={REDIRECT_TO.navigate} where={'Map'}  path={require('../../../assets/map.png')} />
                     </View>
                     
                 </View>
@@ -53,10 +62,8 @@ const SettingOrder = () => {
                     style={{width : '100%', height :100 }}
                     
                     >
-                        <Destination fun={setDestination} name={'Casa'} />
-                        <Destination fun={setDestination} name={'Escritório'} />
-                        <Destination fun={setDestination} name={'Escola'} />
-                        <Destination fun={setDestination} name={'Casa'} />
+                        {list && list.map((item, index) => <Destination key={index} fun={setDestination} name={item} />)}
+                        
 
                     </ScrollView>
                     <View style={{
@@ -82,7 +89,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height : 100,
         gap : 50,
-        marginTop : 150
+        marginTop : 150, 
+        backgroundColor : 'white'
     }
     ,
     content : {

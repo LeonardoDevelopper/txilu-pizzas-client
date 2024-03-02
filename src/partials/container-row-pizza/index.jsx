@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
     },
     title : {
-        fontSize : 23,
+        fontSize : 17,
         fontWeight : 'bold',
         paddingLeft : 25,
         color : 'tomato'

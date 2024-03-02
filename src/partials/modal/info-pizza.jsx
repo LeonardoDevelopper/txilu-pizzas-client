@@ -5,20 +5,25 @@ import * as Animatable from 'react-native-animatable';
 import React from 'react';
 import Rate from '../containerRates';
 import Rates from '../containerRates';
+import { saveUserData } from '../../api/asyncStorage';
 
 const InfoPizza = ({fun, pizza}) => {
     const  [zoom, setZoom ]  = React.useState(true)
     function closing() {
         setZoom(false)
     }
+    const handleOrder = () => {
+        setZoom(false)
+        saveUserData('ORDER-PROCESSOR', {PIZZAs : [{id : pizza.ID, price : pizza.PRICE, quantity : 1},]});
+    }
     return (
         <Modal style={styles.modal}>
             <Animatable.View
-                animation={zoom ? 'zoomIn': 'zoomOut'}
+                animation={zoom ? 'zoomIn': 'zoomOut'} 
                 duration={500}
                 style={[styles.modal, { opacity: 1 }]}
-            >
-                <HeaderScreenModal close={closing} fun={fun} where={'Setting order'} />
+           >
+                <HeaderScreenModal close={closing} fun={fun} fun2={handleOrder} where={'Map'} />
                 <ScrollView>
                     <View style={styles.containerImg}>
                         <Image source={{uri : pizza.PHOTO}} style={styles.photo} />
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
         flex: 1,
         top : 0,
         height: '100%',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
       },

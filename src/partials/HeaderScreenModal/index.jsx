@@ -1,7 +1,7 @@
 import { View, Text, Image, Modal, StyleSheet, TouchableHighlight} from 'react-native'
 import { ButtonNavigation } from '../form/button'
 import { useNavigation } from '@react-navigation/native'
-const HeaderScreenModal = ({fun, close, where}) => {
+const HeaderScreenModal = ({fun, fun2, close, where}) => {
     const REDIRECT_TO = useNavigation()
     return (
         <View style={styles.header}>
@@ -28,7 +28,8 @@ const HeaderScreenModal = ({fun, close, where}) => {
                     underlayColor={'#f5f5f5f5'}        
                     style={styles.btnNav}
                     onPress={() => {
-                        REDIRECT_TO.navigate(where)
+                        REDIRECT_TO.navigate(where);
+                        fun2()
                     }}
                 >
                     <Image style={styles.ico} source={require('../../../assets/send.png')} />

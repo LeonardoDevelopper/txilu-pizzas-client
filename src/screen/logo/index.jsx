@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image , ProgressBarAndroid, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export const txiluPizzasLogo = 'http://192.168.130.241:8080/uploads/txilu-pizzas-logo-no-background.png'
+export const txiluPizzasLogo = 'http://192.168.7.241:8080/uploads/txilu-pizzas-logo-no-background.png'
 
 const Logo = () => {
 

@@ -5,6 +5,7 @@ import ContainerCount from '../Container-count';
 
 const Item = ({product, handleDeleteItem}) => {
     const [selected, setSelected] = React.useState(false)
+    const [counter, setCounter] = React.useState(0)
     const handleSelect = () => {
          setSelected(!selected)
         //setList([...list, product.ID])
@@ -34,7 +35,7 @@ const Item = ({product, handleDeleteItem}) => {
                             {
                                 selected ?
                                 <View style={{ width : 145, backgroundColor : 'white', bottom : 2, height : '42%', borderRadius : 10}}>
-                                    <ContainerCount  />
+                                    <ContainerCount  counter={counter} setCounter={setCounter}  />
                                 </View>
                                 :
                                 null

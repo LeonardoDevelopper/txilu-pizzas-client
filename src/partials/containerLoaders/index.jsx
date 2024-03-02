@@ -12,7 +12,7 @@ export const Loading = () => {
             justifyContent : 'center',
             alignItems : 'center',
             }}>
-            <ProgressBarAndroid style={{width : 50, height : 50}} color={'tomato'} />
+            <ProgressBarAndroid style={{width : 45, height : 45}} color={'tomato'} />
 
 
         </View>

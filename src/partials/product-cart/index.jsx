@@ -13,7 +13,7 @@ const ProductCart  = ({products, setProducts, setCounter}) => {
    
   const handleDeleteItem = async (id) => {
     setProducts((product) => product.filter(item => item.ID != id))
-    const  USER = await getUserData()
+    const  USER = await getUserData('CLIENT-TOKEN')
     fetch(BASE_URL + `/client/deletes/product-from-cart/${id}/${USER.ID}`, 
     {
       method : 'DELETE',
@@ -42,7 +42,7 @@ const ProductCart  = ({products, setProducts, setCounter}) => {
       setLoading(true)
 
     }
-    const  USER = await getUserData()
+    const  USER = await getUserData('CLIENT-TOKEN')
     fetch(BASE_URL + `/client/selects/get-cart/${USER.ID}`,
     {
         method: 'GET',
